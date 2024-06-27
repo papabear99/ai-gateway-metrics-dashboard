@@ -1,0 +1,28 @@
+name: Update CSV Data
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Run every hour, adjust as needed
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Update CSV data
+        run: |
+          # Add your script here to fetch and update the CSV data
+          # For example, using curl or a custom script
+          curl -o data/panel1.csv <URL_TO_FETCH_CSV>
+          curl -o data/panel2.csv <URL_TO_FETCH_CSV>
+      
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m 'Update CSV data'
+          git push
